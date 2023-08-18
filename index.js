@@ -24,8 +24,12 @@ app.get("/", function (req, res) {
 // });
 
 // date endpoint
-app.get("/api/:date_string", function (req, res) {
-  let dateObject = new Date(req.params.date_string);
+app.get("/api/:date_string?", function (req, res) {
+  let dateString = req.params.date_string;
+  let dateObject = new Date();
+  if (dateString) {
+    dateObject = new Date(dateString);
+  }
   const invalidDate = "Invalid Date";
   if (dateObject == invalidDate) {
     dateObject = new Date(Number(req.params.date_string));
