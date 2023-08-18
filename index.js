@@ -25,17 +25,19 @@ app.get("/", function (req, res) {
 
 // date endpoint
 app.get("/api/:date_string", function (req, res) {
-  let unixDate = new Date(req.params.date_string);
+  let dateObject = new Date(req.params.date_string);
   const invalidDate = "Invalid Date";
-  if (unixDate == invalidDate) {
-    unixDate = new Date(Number(req.params.date_string));
-    if (unixDate == invalidDate) {
-      res.json({ error: "Invalid Date" });
+  if (dateObject == invalidDate) {
+    dateObject = new Date(Number(req.params.date_string));
+    if (dateObject == invalidDate) {
+      res.json({ error: invalidDate });
     }
   }
+  let unixDate = Date.parse(dateObject);
+  let utcDate = dateObject.toUTCString();
   res.json({
-    unix: Date.parse(unixDate),
-    utc: unixDate,
+    unix: unixDate,
+    utc: utcDate,
   });
 });
 
